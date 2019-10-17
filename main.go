@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"net/http"
 
 	"github.com/goproxy/goproxy"
@@ -15,5 +16,7 @@ func main() {
 	flag.Parse()
 	proxy := goproxy.New()
 	proxy.Cacher = &cacher.Disk{Root: *dir}
-	http.ListenAndServe(*addr, proxy)
+	if err := http.ListenAndServe(*addr, proxy); err != nil {
+		fmt.Println(err)
+	}
 }
